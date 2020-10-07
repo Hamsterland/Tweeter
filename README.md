@@ -22,4 +22,5 @@ dotnet run -c Release
 ## Roadmap
 * Support more advanced Tweet customisation. Ex. images, ranges... 
 * Integrate database features
+* Implement a `CommandExecutedListener`
 * Create a help command
