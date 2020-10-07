@@ -21,3 +21,4 @@ dotnet run -c Release
 
 ## Roadmap
 * Support more advanced Tweet customisation. Ex. images, ranges... 
+* Create a help command
