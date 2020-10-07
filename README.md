@@ -5,6 +5,11 @@ Tweeter is a Discord bot written in C# that mocks Tweets.
 ```
 git pull https://github.com/Hamsterland/Tweeter.git
 cd Tweeter
+rename appsettings.default.json appsettings.json (Windows)
+mv appsettings.default.json appsettings.json (Linux)
+```
+Insert your bot token and desired prefix into the settings file.
+```
 dotnet restore
 dotnet run -c Release
 ```
