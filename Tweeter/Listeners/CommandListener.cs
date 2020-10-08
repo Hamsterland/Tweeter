@@ -14,18 +14,18 @@ namespace Tweeter.Listeners
     public class CommandListener : INotificationHandler<MessageReceivedNotification>
     {
         private readonly IConfiguration _configuration;
-        private readonly DiscordSocketClient _discordSocketClient;
+        private readonly DiscordSocketClient _client;
         private readonly CommandService _commandService;
         private readonly IServiceProvider _serviceProvider;
 
         public CommandListener(
             IConfiguration configuration,
-            DiscordSocketClient discordSocketClient,
+            DiscordSocketClient client,
             CommandService commandService,
             IServiceProvider serviceProvider)
         {
             _configuration = configuration;
-            _discordSocketClient = discordSocketClient;
+            _client = client;
             _commandService = commandService;
             _serviceProvider = serviceProvider;
         }
@@ -42,9 +42,9 @@ namespace Tweeter.Listeners
             var argPos = 0;
             var prefix = _configuration["Prefix"];
 
-            if (message.HasStringPrefix(prefix, ref argPos))
+            if (message.HasStringPrefix(prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))
             {
-                var context = new SocketCommandContext(_discordSocketClient, message);
+                var context = new SocketCommandContext(_client, message);
                 using var scope = _serviceProvider.CreateScope();
                 await _commandService.ExecuteAsync(context, argPos, scope.ServiceProvider);
             }
