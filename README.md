@@ -22,10 +22,11 @@ dotnet run -c Release
 
 ## Commands
 * `.tweet (t) <message>` 
+* `.help (h)`
 * `.ping` 
+* `.about`
 
 ## Roadmap
-* Support more advanced Tweet customisation. Ex. images, ranges... 
+* Support Tweet like and retweet customisation
 * Integrate database features
 * Implement a `CommandExecutedListener`
-* Create a help command
