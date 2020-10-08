@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 using Discord.Commands;
+using Microsoft.Extensions.Configuration;
 
 namespace Tweeter.Services.Modules
 {
@@ -7,6 +10,37 @@ namespace Tweeter.Services.Modules
     [Summary("Miscellaneous commands.")]
     public class MiscellaneousModule : ModuleBase<SocketCommandContext>
     {
+        private readonly CommandService _commandService;
+        private readonly IConfiguration _configuration;
+
+        public MiscellaneousModule(CommandService commandService, IConfiguration configuration)
+        {
+            _commandService = commandService;
+            _configuration = configuration;
+        }
+
+        [Command("help")]
+        [Alias("h")]
+        [Summary("Shows bot help.")]
+        public async Task Help()
+        {
+            
+            var builder = new StringBuilder();
+            var prefix = _configuration["Prefix"];
+            
+            builder.AppendLine($"You can use a command through {Context.Client.CurrentUser.Mention} or the default prefix `{prefix}`");
+            builder.AppendFormat("```cs\n");
+            
+            var commands = _commandService.Commands;
+            foreach (var command in commands)
+            {
+                builder.AppendFormat("{0,-5} # {1,-25}\n", command.Name, command.Summary);
+            }
+            
+            builder.AppendFormat("\n```");
+            await ReplyAsync(builder.ToString());
+        }
+        
         [Command("ping")]
         [Summary("Pong!")]
         public async Task Ping()
