@@ -24,7 +24,6 @@ namespace Tweeter.Services.Modules
         [Summary("Shows bot help.")]
         public async Task Help()
         {
-            
             var builder = new StringBuilder();
             var prefix = _configuration["Prefix"];
             
@@ -38,6 +37,21 @@ namespace Tweeter.Services.Modules
             }
             
             builder.AppendFormat("\n```");
+            await ReplyAsync(builder.ToString());
+        }
+
+        [Command("about")]
+        [Summary("A little bit about myself.")]
+        public async Task About()
+        {
+            var builder = new StringBuilder();
+
+            builder
+                .AppendLine($"Hello, I'm {Context.Client.CurrentUser.Mention} - A Discord bot that mocks Tweets.")
+                .AppendLine()
+                .AppendLine("Please check out my GitHub repository if the magic code that makes me run interests you :)")
+                .AppendLine("https://github.com/Hamsterland/Tweeter");
+
             await ReplyAsync(builder.ToString());
         }
         
