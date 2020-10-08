@@ -1,4 +1,7 @@
-﻿using Discord;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Discord;
 
 namespace Tweeter
 {
@@ -44,6 +47,29 @@ namespace Tweeter
                 .WithAuthor(author => author
                         .WithName($"{username} (@{user})")
                         .WithIconUrl(user.GetAvatarUrl()));
+        }
+
+        public static EmbedBuilder WithAttatchments(this EmbedBuilder builder, StringBuilder sb, IReadOnlyCollection<Attachment> attatchments)
+        {
+            if (attatchments.Count == 0)
+            {
+                return builder;
+            }
+
+            builder.WithImageUrl(attatchments.First().Url);
+
+            if (attatchments.Count > 1)
+            {
+                sb.AppendLine();
+                sb.AppendLine(Format.Bold("Attachments"));
+                
+                foreach (var attatchment in attatchments.Skip(1))
+                {
+                    sb.AppendLine($"[{attatchment.Filename}]({attatchment.Url})");
+                }
+            }
+
+            return builder;
         }
     }
 }
